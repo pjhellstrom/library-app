@@ -4,6 +4,7 @@ const cors = require("cors");
 const routes = require("./routes");
 const PORT = process.env.PORT || 3001;
 const app = express();
+require("dotenv").config();
 
 // Define middleware here
 app.use(cors());
@@ -20,10 +21,15 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
-  useCreateIndex: true,
-  useNewUrlParser: true
-});
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://user:password123@ds045531.mlab.com:45531/heroku_6wk9vd7z",
+  {
+    useMongoClient: true,
+    useCreateIndex: true,
+    useNewUrlParser: true
+  }
+);
 
 app.listen(PORT, function() {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
